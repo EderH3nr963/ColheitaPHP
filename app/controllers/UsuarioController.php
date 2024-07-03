@@ -1,0 +1,46 @@
+<?php
+require BASE_PATH.'\app\models\UsuarioModel.php';
+require APP_PATH.'\helpers\PasswordHelper.php';
+
+class UsuarioController {
+    public function cadastro() {
+        if ($_SERVER['REQUEST_METHOD'] == "GET") {
+            require_once BASE_PATH . '\app\views\usuarios\cadastro.php';
+        } else {
+            
+            $usuario = new UsuarioModel();
+
+            $formulario = $_POST;
+            $email = trim(addslashes($_POST['email']));
+            $nome = trim(addslashes($_POST['nome']));
+            $senha1 = trim(addslashes($_POST['senha1']));
+            $senha2 = trim(addslashes($_POST['senha2']));
+
+            if (in_array('', $formulario)) {
+                echo "Campos vazios no array";
+            } else {
+                if (!(filter_var($email, FILTER_VALIDATE_EMAIL))) {
+                    echo "Email Invalido";
+                } else if ($senha1 != $senha2 && strlen($senha1) < 8 || strlen($senha1) > 25) {
+                    echo "As senha não coincidem";
+                } else if ((new PasswordHelper)->isWeakPassword($senha1)) {
+                    echo " senha muito fraca";
+                } else if ($usuario->getRow($email) != 0 ){
+                    echo "email já existente";
+                } else {
+
+                    $senha1 = password_hash($senha1);
+
+                    $usuario->create($nome, $email, $senha1) or die("falha ao cadastrar");
+                    $fetchUsuario = $usuario->read($email);
+
+                    foreach($fetchUsuario as $value){
+                        $_SESSION['usuario'] = array($value['email'], $value['nome']);
+                    }
+                }
+            }
+
+        }
+    }
+}
+
