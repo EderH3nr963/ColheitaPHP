@@ -5,7 +5,10 @@ require APP_PATH.'\helpers\PasswordHelper.php';
 
 class UsuarioController {
     public function cadastro() {
-        if ($_SERVER['REQUEST_METHOD'] == "GET") {
+        if (isset($_SESSION['usuario'])) {
+            header("Location: http://localhost/", True, 301);
+            exit;
+        }else if ($_SERVER['REQUEST_METHOD'] == "GET") {
             require_once BASE_PATH . '\app\views\usuarios\cadastro.php';
         } else {
             
@@ -18,16 +21,26 @@ class UsuarioController {
             $senha2 = trim(addslashes($_POST['senha2']));
 
             if (in_array('', $formulario)) {
-                echo "Campos vazios no array";
+                $_SESSION['msg_erro_1'] = "Os campos não podem ser nullos";
+                $_SESSION['formulario'] = $formulario;
+                require_once BASE_PATH . '\app\views\usuarios\cadastro.php';
             } else {
                 if (!(filter_var($email, FILTER_VALIDATE_EMAIL))) {
-                    echo "Email Invalido";
+                    $_SESSION['msg_erro_2'] = "Email Inválido";
+                    $_SESSION['formulario'] = $formulario;
+                    require_once BASE_PATH . '\app\views\usuarios\cadastro.php';
                 } else if ($senha1 != $senha2 && strlen($senha1) < 8 || strlen($senha1) > 25) {
-                    echo "As senha não coincidem";
+                    $_SESSION['msg_erro_3'] = "As senhas não coincidem";
+                    $_SESSION['formulario'] = $formulario;
+                    require_once BASE_PATH . '\app\views\usuarios\cadastro.php';
                 } else if ((new PasswordHelper)->isWeakPassword($senha1)) {
-                    echo " senha muito fraca";
+                    $_SESSION['msg_erro_4'] = "A senha precisa ter letras maiusculas, números e ao menos um caracter especial";
+                    $_SESSION['formulario'] = $formulario;
+                    require_once BASE_PATH . '\app\views\usuarios\cadastro.php';
                 } else if ($usuario->getRow($email) != 0 ){
-                    echo "email já existente";
+                    $_SESSION['msg_erro_5'] = "Usuario ja existente";
+                    $_SESSION['formulario'] = $formulario;
+                    require_once BASE_PATH . '\app\views\usuarios\cadastro.php';
                 } else {
 
                     $senha1 = password_hash($senha1, PASSWORD_DEFAULT);
@@ -46,7 +59,10 @@ class UsuarioController {
     }
 
     public function login() {
-        if ($_SERVER['REQUEST_METHOD'] == "GET") {
+        if (isset($_SESSION['usuario'])) {
+            header("Location: http://localhost/", True, 301);
+            exit;
+        }else if ($_SERVER['REQUEST_METHOD'] == "GET") {
             require_once BASE_PATH . '\app\views\usuarios\login.php';
         } else {
             $email = trim(addslashes($_POST['email']));
