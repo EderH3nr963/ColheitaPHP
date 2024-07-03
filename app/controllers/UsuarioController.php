@@ -42,5 +42,33 @@ class UsuarioController {
 
         }
     }
+
+    public function login() {
+        if ($_SERVER['REQUEST_METHOD'] == "GET") {
+            require_once BASE_PATH . '\app\views\usuarios\login.php';
+        } else {
+            $email = trim(addslashes($_POST['email']));
+            $senha1 = trim(addslashes($_POST['senha1']));
+
+            if (in_array('', $_POST)) {
+                echo "Campos vazios no array";
+            } else {
+                $usuario = new UsuarioModel();
+                $fetchUsuario = $usuario->read($email);
+
+                if ($usuario->getRow($email) < 1){
+                    echo "Usuário não existe";
+                } else {
+                    foreach($usuario as $value) {
+                        if ($email == $value['email'] && password_verify($senha1, $value['senha'])) {
+                            $_SESSION['usuario'] = array($value['email'], $value['nome']);
+                        } else {
+                            echo "Falha ao fazer login";
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
