@@ -15,24 +15,43 @@ require_once 'C:\Users\ederh\OneDrive\Área de Trabalho\ColheitaPHP\app\config.p
 <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary" width="10px" data-bs-theme="dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Navbar</a>
+            <a class="navbar-brand" href="/">Home</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Features</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Pricing</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-                    </li>
+                    <?php if (isset($_SESSION['usuario'])):?>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">Sobre Nós</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Minhas Plantacões</a>
+                        </li>  
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Menu
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Atualizar Senha</a></li>
+                                <li><a class="dropdown-item" href="#">Atualizar Email</a></li>
+                                <li><a class="dropdown-item" href="usuario/logout">Sair</a></li>
+                            </ul>
+                        </li>
+                    <?php else: ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Sobre Nós</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Menu
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/usuario/cadastro">Cadastro</a></li>
+                                <li><a class="dropdown-item" href="/usuario/login">Login</a></li>
+                            </ul>
+                        </li>
+                    <?php endif ?>
                 </ul>
             </div>
         </div>
