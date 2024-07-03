@@ -1,4 +1,5 @@
 <?php
+@session_start();
 require BASE_PATH.'\app\models\UsuarioModel.php';
 require APP_PATH.'\helpers\PasswordHelper.php';
 
@@ -29,14 +30,15 @@ class UsuarioController {
                     echo "email já existente";
                 } else {
 
-                    $senha1 = password_hash($senha1);
+                    $senha1 = password_hash($senha1, PASSWORD_DEFAULT);
 
                     $usuario->create($nome, $email, $senha1) or die("falha ao cadastrar");
                     $fetchUsuario = $usuario->read($email);
-
-                    foreach($fetchUsuario as $value){
-                        $_SESSION['usuario'] = array($value['email'], $value['nome']);
-                    }
+                    $_SESSION['usuario'] = array(
+                        'id' => $fetchUsuario['id'], 
+                        'nome' => $fetchUsuario['nome'], 
+                        'email' => $fetchUsuario['email']
+                    );
                 }
             }
 

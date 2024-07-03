@@ -5,7 +5,7 @@ class UsuarioModel {
 
     public function __construct() {
         try {
-            $this->db = new PDO("mysql:host=localhost;dbname=colheita", "root", "");
+            $this->db = new PDO("mysql:host=localhost;dbname=colheitaphp", "root", "");
             $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
             echo "Connection failed: " . $e->getMessage();
@@ -14,7 +14,7 @@ class UsuarioModel {
 
     // Create
     public function create($nome, $email, $senha) {
-        $sql = "INSERT INTO usuarios (nome, email, senha) VALUES (:nome, :email, :senha)";
+        $sql = "INSERT INTO usuario (nome, email, senha) VALUES (:nome, :email, :senha)";
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':nome', $nome);
         $stmt->bindParam(':email', $email);
@@ -24,7 +24,7 @@ class UsuarioModel {
 
     // Read all
     public function readAll() {
-        $sql = "SELECT * FROM usuarios";
+        $sql = "SELECT * FROM usuario";
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -32,7 +32,7 @@ class UsuarioModel {
 
     // Read one
     public function read($email) {
-        $sql = "SELECT * FROM usuarios WHERE email = :email";
+        $sql = "SELECT * FROM usuario WHERE email = :email";
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':email', $email);
         $stmt->execute();
@@ -40,7 +40,7 @@ class UsuarioModel {
     }
 
     public function getRow($email) {
-        $sql = "SELECT * FROM usuarios WHERE email = :email";
+        $sql = "SELECT * FROM usuario WHERE email = :email";
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':email', $email);
         $stmt->execute();
@@ -49,7 +49,7 @@ class UsuarioModel {
 
     // Update
     public function updateEmail($nome, $email) {
-        $sql = "UPDATE usuarios SET nome = :nome WHERE email = :email";
+        $sql = "UPDATE usuario SET nome = :nome WHERE email = :email";
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':nome', $nome);
         $stmt->bindParam(':email', $email);
@@ -57,7 +57,7 @@ class UsuarioModel {
     }
 
     public function updateSenha($email, $senha) {
-        $sql = "UPDATE usuarios SET senha = :senha WHERE email = :email";
+        $sql = "UPDATE usuario SET senha = :senha WHERE email = :email";
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':email', $email);
         $stmt->bindParam(':senha', $senha);
@@ -66,7 +66,7 @@ class UsuarioModel {
 
     // Delete
     public function delete($email) {
-        $sql = "DELETE FROM usuarios WHERE email = :email";
+        $sql = "DELETE FROM usuario WHERE email = :email";
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':email', $email);
         return $stmt->execute();
