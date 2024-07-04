@@ -134,6 +134,21 @@ class UsuarioController {
         }
     }
 
+    public function excluirConta() {
+        if (!(isset($_SESSION['usuario']))) {
+            header("Location: /usuario/login", True, 301);
+            exit;
+        } else if ($_SERVER['REQUEST_METHOD'] == "GET") {
+            require_once APP_PATH."/views/usuarios/excluirConta.php";
+        } else {
+            (new UsuarioModel())->delete($_SESSION['usuario']['email']) or die("Falha ao excluir o usuario");
+            unset($_SESSION['usuario']);
+
+            header("Location: /", True, 301);
+            exit;
+        }
+    }
+
     public function logout() {
         unset($_SESSION['usuario']);
 

@@ -21,10 +21,10 @@ require_once 'C:\Users\ederh\OneDrive\Área de Trabalho\ColheitaPHP\app\config.p
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Sobre Nós</a>
+                    </li>
                     <?php if (isset($_SESSION['usuario'])):?>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Sobre Nós</a>
-                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Minhas Plantacões</a>
                         </li>  
@@ -33,15 +33,13 @@ require_once 'C:\Users\ederh\OneDrive\Área de Trabalho\ColheitaPHP\app\config.p
                                 Menu
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Atualizar Senha</a></li>
-                                <li><a class="dropdown-item" href="#">Atualizar Email</a></li>
-                                <li><a class="dropdown-item" href="usuario/logout">Sair</a></li>
+                                <li><a class="dropdown-item" href="/usuario/atualizarSenha">Atualizar Senha</a></li>
+                                <li><a class="dropdown-item" href="/usuario/excluirConta">Excluir Conta</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="/usuario/logout">Sair</a></li>
                             </ul>
                         </li>
                     <?php else: ?>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Sobre Nós</a>
-                        </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Menu
@@ -93,13 +91,13 @@ require_once 'C:\Users\ederh\OneDrive\Área de Trabalho\ColheitaPHP\app\config.p
                 // Ação não encontrada
                 header("HTTP/1.0 404 Not Found");
                 echo "Ação não encontrada.";
-                exit();
+                exit;
             }
         } else {
             // Controlador não encontrado
             header("HTTP/1.0 404 Not Found");
             echo "Controlador não encontrado.";
-            exit();
+            exit;
         }
     ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
