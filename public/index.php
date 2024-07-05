@@ -38,6 +38,8 @@ require BASE_PATH.'/vendor/autoload.php';
                                 <li><a class="dropdown-item" href="/usuario/atualizarSenha">Atualizar Senha</a></li>
                                 <li><a class="dropdown-item" href="/usuario/excluirConta">Excluir Conta</a></li>
                                 <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="/plantacao/criarPlantacao">Adicionar Safra</a></li>
+                                <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="/usuario/logout">Sair</a></li>
                             </ul>
                         </li>
