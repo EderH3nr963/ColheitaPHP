@@ -1,4 +1,9 @@
 <?php 
+require 'C:\Users\ederh\OneDrive\Área de Trabalho\ColheitaPHP/vendor/autoload.php';
+
+$dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
+$dotenv->load();
+
 // Defina o caminho base da Aplicação
 define('BASE_PATH', dirname(__DIR__));
 define('APP_PATH', BASE_PATH . DIRECTORY_SEPARATOR . 'app');

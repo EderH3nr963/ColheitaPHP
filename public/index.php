@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once 'C:\Users\ederh\OneDrive\Área de Trabalho\ColheitaPHP\app\config.php'; 
+require BASE_PATH.'/vendor/autoload.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -9,8 +10,9 @@ require_once 'C:\Users\ederh\OneDrive\Área de Trabalho\ColheitaPHP\app\config.p
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= TITLE ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="\css\general\general.css">
-    <link rel="stylesheet" href="\css\general\cadastro.css">
+    <link rel="stylesheet" href="\assets\css\general\general.css">
+    <link rel="stylesheet" href="\assets\css\general\cadastro.css">
+    <link rel="stylesheet" href="\assets\css\general\botao.css">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary" width="10px" data-bs-theme="dark">
@@ -26,7 +28,7 @@ require_once 'C:\Users\ederh\OneDrive\Área de Trabalho\ColheitaPHP\app\config.p
                     </li>
                     <?php if (isset($_SESSION['usuario'])):?>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Minhas Plantacões</a>
+                            <a class="nav-link" href="/plantacao/minhasPlantacoes">Minhas Plantacões</a>
                         </li>  
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -95,7 +97,7 @@ require_once 'C:\Users\ederh\OneDrive\Área de Trabalho\ColheitaPHP\app\config.p
             }
         } else {
             // Controlador não encontrado
-            header("HTTP/1.0 404 Not Found");
+            header("HTTP/1.0 404 erro404.php");
             echo "Controlador não encontrado.";
             exit;
         }

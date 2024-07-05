@@ -1,7 +1,7 @@
 <?php
 @session_start();
 require BASE_PATH.'\app\models\UsuarioModel.php';
-require APP_PATH.'\helpers\PasswordHelper.php';
+require APP_PATH.'\helpers\UsuarioHelper.php';
 
 class UsuarioController {
     public function cadastro() {
@@ -26,25 +26,31 @@ class UsuarioController {
                 $_SESSION['formulario'] = $formulario;
                 require_once BASE_PATH . '\app\views\usuarios\cadastro.php';
             } else {
+                //valida Email
                 if (!(filter_var($email, FILTER_VALIDATE_EMAIL))) {
                     $_SESSION['msg_erro_2'] = "Email Inválido";
                     $_SESSION['formulario'] = $formulario;
                     require_once BASE_PATH . '\app\views\usuarios\cadastro.php';
-                } else if ($senha1 != $senha2 && strlen($senha1) < 8 || strlen($senha1) > 25) {
+                }
+                // valida Senha
+                else if ($senha1 != $senha2 && strlen($senha1) < 8 || strlen($senha1) > 25) {
                     $_SESSION['msg_erro_3'] = "As senhas não coincidem";
                     $_SESSION['formulario'] = $formulario;
                     require_once BASE_PATH . '\app\views\usuarios\cadastro.php';
-                } else if ((new PasswordHelper)->isWeakPassword($senha1)) {
+                }
+                //Verifica se a senha é fraca
+                else if ((new UsuarioHelper)->isWeakPassword($senha1)) {
                     $_SESSION['msg_erro_4'] = "A senha precisa ter letras maiusculas, números e ao menos um caracter especial";
                     $_SESSION['formulario'] = $formulario;
                     require_once BASE_PATH . '\app\views\usuarios\cadastro.php';
-                } else if ($usuario->getRow($email) != 0 ){
+                } 
+                // Valida se o usuario ja existe
+                else if ($usuario->getRow($email) != 0 ){
                     $_SESSION['msg_erro_5'] = "Usuario ja existente";
                     $_SESSION['formulario'] = $formulario;
                     require_once BASE_PATH . '\app\views\usuarios\cadastro.php';
                 } else {
-
-                    $senha1 = password_hash($senha1, PASSWORD_DEFAULT);
+                    $senha1 = password_hash($senha1, PASSWORD_DEFAULT);// Cria a hash da senha
 
                     $usuario->create($nome, $email, $senha1) or die("falha ao cadastrar");
                     $fetchUsuario = $usuario->read($email);

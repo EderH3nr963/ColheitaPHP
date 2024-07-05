@@ -1,6 +1,6 @@
 <?php
 
-class PasswordHelper {
+class UsuariodHelper {
 
     public static function isWeakPassword($senha) {
         // Verifica se a senha é inteiramente numérica

@@ -12,7 +12,7 @@
                 <label for="" class="form-label">Senha</label>
                 <input type="password" name="senha1" placeholder="Insira sua senha" class="form-control" maxlength="25">
                 <?php if (isset($_SESSION['msg_erro_5'])): ?>
-                    <span style="color:red;font-size:14px"><?= $_SESSION['msg_erro_5'] ?></span><br>
+                    <span style="color:red;font-size:14px; margin:0px"><?= $_SESSION['msg_erro_5'] ?></span><br>
                 <?php endif; ?>
             </div>
             <button type="submit" class="btn btn-primary">Entre</button>
