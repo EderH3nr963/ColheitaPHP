@@ -14,7 +14,7 @@ class UsuarioModel {
 
     // Create
     public function create($nome, $email, $senha) {
-        $sql = "INSERT INTO usuario (nome, email, senha) VALUES (:nome, :email, :senha)";
+        $sql = "INSERT INTO usuario (nome, email, senha, emailAuthenticate) VALUES (:nome, :email, :senha, false)";
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':nome', $nome);
         $stmt->bindParam(':email', $email);
@@ -48,19 +48,19 @@ class UsuarioModel {
     }
 
     // Update
-    public function updateEmail($nome, $email) {
-        $sql = "UPDATE usuario SET nome = :nome WHERE email = :email";
-        $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(':nome', $nome);
-        $stmt->bindParam(':email', $email);
-        return $stmt->execute();
-    }
-
     public function updateSenha($email, $senha) {
         $sql = "UPDATE usuario SET senha = :senha WHERE email = :email";
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':email', $email);
         $stmt->bindParam(':senha', $senha);
+        return $stmt->execute();
+    }
+
+    public function updateAuthenticateEmail($authEmail, $email) {
+        $sql = "UPDATE usuario SET emailAuthenticate = :authEmail WHERE email = :email";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':authEmail', $authEmail);
         return $stmt->execute();
     }
 

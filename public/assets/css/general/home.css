@@ -1,0 +1,27 @@
+main {
+    padding: 20px;
+    width: 100%;
+    height: calc(100%-10px);
+}
+
+.dashboard {
+    text-align: center;
+}
+
+.overview {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 0;
+}
+
+.card {
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-radius: 5px;
+    width: 40%;
+    text-align: center;
+}
+
+.charts, .alerts {
+    margin: 20px 0;
+}

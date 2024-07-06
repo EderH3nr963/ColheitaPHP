@@ -57,10 +57,11 @@ class UsuarioController {
                     $_SESSION['usuario'] = array(
                         'id' => $fetchUsuario['id'], 
                         'nome' => $fetchUsuario['nome'], 
-                        'email' => $fetchUsuario['email']
+                        'email' => $fetchUsuario['email'],
+                        'authEmail' => $fetchUsuario['emailAuthenticate']
                     );
 
-                    header("Location: http://localhost/usuario/codigoVerificacao", True, 301);
+                    header("Location: http://localhost/usuario/verificarEmail", True, 301);
                     exit;
                 }
             }
@@ -90,7 +91,8 @@ class UsuarioController {
                     $_SESSION['usuario'] = array(
                         'id' => $fetchUsuario['id'], 
                         'nome' => $fetchUsuario['nome'], 
-                        'email' => $fetchUsuario['email']
+                        'email' => $fetchUsuario['email'],
+                        'authEmail' => $fetchUsuario['emailAuthenticate']
                     );
                     header("Location: http://localhost/", True, 301);
                     exit;
@@ -126,7 +128,7 @@ class UsuarioController {
             } else if (!(password_verify($senha1, $fetchUsuario['senha']))) {
                 $_SESSION['msg_erro_6'] = "Senha Inválida";
                 require_once BASE_PATH . '\app\views\usuarios\atualizarSenha.php';
-            } else if ((new PasswordHelper)->isWeakPassword($senha2)) {
+            } else if ((new UsuarioHelper)->isWeakPassword($senha2)) {
                 $_SESSION['msg_erro_6'] = "Senha muito fraca";
                 require_once BASE_PATH . '\app\views\usuarios\atualizarSenha.php';
             } else {
@@ -137,6 +139,73 @@ class UsuarioController {
                 header("Location: /", True, 301);
                 exit;
             }
+        }
+    }
+    public function verificarEmail() {
+        if (isset($_SESSION['usuario']) && $_SESSION['usuario']['authEmail'] == "0") {
+            if ($_SERVER['REQUEST_METHOD'] == "GET") {
+                require_once APP_PATH."\\views\\usuarios\\verificarEmail.php";
+            } else {
+                $codVerif = rand(100000, 999999);
+                
+                $nomeDest = $_SESSION['usuario']['nome'];
+                $emailDest = $_SESSION['usuario']['email'];
+                $subject = "Código de verificação de email";
+                $body = "Seu código de verificação é <b>$codVerif</b>";
+                $altBody = "";
+                
+                if ((new UsuarioHelper)->enviarEmail($nomeDest, $emailDest, $subject, $body, $altBody)) {
+                        $_SESSION['codVerif'] = $codVerif;
+                        $_SESSION['codVerifTime'] = time();
+                        
+                        header("Location: /usuario/verificarCodigo");
+                        exit;
+                } else {
+                        echo "<p>Erro ao enviar o código</p>";
+                }
+            }
+        } else {
+            header("Location: /", true, 301);
+            exit;
+        }
+    }
+
+    public function verificarCodigo() {
+        if (isset($_SESSION['codVerif']) && $_SESSION['usuario']['authEmail'] == "0") {
+            $expireTime = 600;
+            if ($_SERVER['REQUEST_METHOD'] == "POST") {
+                $codVerif = $_POST['cod'];
+                $storageCod = $_SESSION['codVerif'];
+                $storageTime = $_SESSION['codVerifTime'];
+
+                unset($_SESSION['codVerif']);
+                unset($_SESSION['codVerifTime']);
+
+                if (time() - $storageTime < $expireTime ) {
+                    if ($codVerif == $storageCod) {
+                        $msgTitle = "Veiricação feita com sucesso";
+                        $msg = "Verificação foi feita com sucesso";
+
+                        if ((new UsuarioModel)->updateAuthenticateEmail(1, $_SESSION['usuario']['email'])) {
+                            $_SESSION['usuario']['authEmail'] = 1;
+                            require_once APP_PATH."\\views\\usuarios\\alert.php";
+                            return 0;
+                        } else {
+                            $msg = "Código inválido";
+                        }
+                    } else {
+                        $msg = "Código inválido";
+                    }
+                } else {
+                    $msg = "Codigo de verificação expirou";
+                }
+
+            }
+
+            require APP_PATH."\\views\\usuarios\\verificarCodigo.php";
+        } else {
+            header("Location: /");
+            exit;
         }
     }
 

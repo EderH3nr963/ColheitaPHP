@@ -4,7 +4,7 @@ require_once 'C:\Users\ederh\OneDrive\Área de Trabalho\ColheitaPHP\app\config.p
 require BASE_PATH.'/vendor/autoload.php';
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,6 +13,7 @@ require BASE_PATH.'/vendor/autoload.php';
     <link rel="stylesheet" href="\assets\css\general\general.css">
     <link rel="stylesheet" href="\assets\css\general\cadastro.css">
     <link rel="stylesheet" href="\assets\css\general\botao.css">
+    <link rel="stylesheet" href="\assets\css\general\home.css">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary" width="10px" data-bs-theme="dark">
@@ -35,6 +36,9 @@ require BASE_PATH.'/vendor/autoload.php';
                                 Menu
                             </a>
                             <ul class="dropdown-menu">
+                                <?php if ($_SESSION['usuario']['authEmail'] == 0) :?>
+                                    <li><a class="dropdown-item" href="/usuario/verificarEmail">Verificar Email</a></li>
+                                <?php endif; ?>
                                 <li><a class="dropdown-item" href="/usuario/atualizarSenha">Atualizar Senha</a></li>
                                 <li><a class="dropdown-item" href="/usuario/excluirConta">Excluir Conta</a></li>
                                 <li><hr class="dropdown-divider"></li>
@@ -56,6 +60,9 @@ require BASE_PATH.'/vendor/autoload.php';
                     <?php endif ?>
                 </ul>
             </div>
+        </div>
+        <div class="nav-link" style="text-size:10px;color:white;margin-right:10px">
+            <?= isset($_SESSION['usuario']) ? $_SESSION['usuario']['email'] : "" ?>
         </div>
     </nav>
     <?php

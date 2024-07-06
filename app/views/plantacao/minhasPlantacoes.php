@@ -9,18 +9,26 @@
                     <th scope="col">Estado</th>
                     <th scope="col">Dias de Plantio</th>
                     <th scope="col">Data de Plantio</th>
+                    <th scope="col">Alerta</th>
                     <th scope="col">Excluir</th>
-                    <th scope="col">Atualizar</th>
                 </tr>
             </thead>
             <?php if (!(isset($msg))): ?>
                 <?php foreach($plantacoes as $values): ?>
                     <?php 
                         // Tipo do Clima
+                        $mensagemAlerta = "Não há previsão de geada.";
                         @$plantacaoClima = (new PlantacaoHelper())->weather($values['cidade']);
                         if ($plantacaoClima['cod'] == "200") {
+                            $temperature = $plantacaoClima['main']['temp'];
                             $clima = $plantacaoClima['weather'][0]['description'];
                             $color = "";
+
+                            if ($temperature <= 0 && strpos($weatherDescription, "frost") !== false) {
+                                $alertaGeada = true;
+                                $mensagemAlerta = "Alerta de geada! Temperatura: {$temperature}°C, Descrição: {$clima}";
+                                break;
+                            }
                         } else {
                             $clima = "Não foi possivel importar o clima";
                             $color = "red";
@@ -39,8 +47,8 @@
                             <td><?= $values['estado'] ?></td>
                             <td><?= $diasPlantio->days ?></td>
                             <td><?= $values['dataPlantio'] ?></td>
+                            <td style="color:<?= $alertaGeada ? "red" : "" ?>"><?= $mensagemAlerta ?></td>
                             <td><a class="btn btn-danger" href="/plantacao/excluir/<?= $values['idPlantacao'] ?>"></a></td>
-                            <td></td>
                         </tr>
                     </tbody>
                 <?php endforeach; ?>

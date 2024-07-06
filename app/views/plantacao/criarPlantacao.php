@@ -14,12 +14,18 @@
                 </div>
             </div>
             <div class="row mb-3">
-                <label for="" class="form-label">UF</label>
-                <select name="estado" id="" class="form-control w-25">
-                    <?php foreach ($estado as $uf => $info) :?>
-                        <option value='<?= $uf ?>'><?= $uf ?></option>
-                    <?php endforeach; ?>
-                </select>
+                <div class="col">
+                    <label for="" class="form-label">UF</label>
+                    <select name="estado" id="" class="form-control w-25">
+                        <?php foreach ($estado as $uf => $info) :?>
+                            <option value='<?= $uf ?>'><?= $uf ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="col w-25">
+                    <label for="" class="form-label">Dias Irrigação</label>
+                    <input type="text" class="form-control" name="diaIrrigacao" placeholder="Ex: 2">
+                </div>
             </div>
             <?php if (isset($erro_msg)): ?>
                 <div style="color:red"><?= isset($erro_msg) ? $erro_msg : "" ?></div>

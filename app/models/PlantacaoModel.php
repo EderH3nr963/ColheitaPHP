@@ -13,14 +13,15 @@ class PlantacaoModel {
     }
 
     // Create
-    public function create($tipoPlantio, $cidade, $dataPlantio, $idUsuario, $estado) {
-        $sql = "INSERT INTO plantacao (tipoPlantio, cidade, dataPlantio, idUsuario, estado) VALUES (:tipoPlantio, :cidade, :dataPlantio, :idUsuario, :estado)";
+    public function create($tipoPlantio, $cidade, $dataPlantio, $idUsuario, $estado, $diaIrrigacao) {
+        $sql = "INSERT INTO plantacao (tipoPlantio, cidade, dataPlantio, idUsuario, estado, diaIrrigacao) VALUES (:tipoPlantio, :cidade, :dataPlantio, :idUsuario, :estado, :diaIrrigacao)";
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':tipoPlantio', $tipoPlantio);
         $stmt->bindParam(':cidade', $cidade);
         $stmt->bindParam(':dataPlantio', $dataPlantio);
         $stmt->bindParam(':idUsuario', $idUsuario);
         $stmt->bindParam(':estado', $estado);
+        $stmt->bindParam(':diaIrrigacao', $diaIrrigacao);
         return $stmt->execute();
     }
 

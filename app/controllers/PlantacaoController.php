@@ -39,6 +39,7 @@ class PlantacaoController {
             $tipoPlantio = $_POST['tipoPlantio'];
             $dataPlantio = $_POST['dataPlantio'];
             $uf = $_POST['estado'];
+            $diaIrrigacao = $_POST['diaIrrigacao'];
 
             // Pega os estados válidos
             $estado = (new PlantacaoHelper())->getEstado();
@@ -81,7 +82,7 @@ class PlantacaoController {
             }
 
             // Cria o Plantação no banco de dados
-            if ($plantacao->create($tipoPlantio, $cidade, $dataPlantio, $_SESSION['usuario']['id'], $estado)) {
+            if ($plantacao->create($tipoPlantio, $cidade, $dataPlantio, $_SESSION['usuario']['id'], $estado, $diaIrrigacao)) {
                 header("Location: /plantacao/minhasPlantacoes", true, 301);
                 exit;
             } else {
