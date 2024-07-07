@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'C:\Users\ederh\OneDrive\Área de Trabalho\ColheitaPHP\app\config.php'; 
+require_once dirname(__DIR__).'\app\config.php'; 
 require BASE_PATH.'/vendor/autoload.php';
 ?>
 <!DOCTYPE html>
@@ -16,7 +16,7 @@ require BASE_PATH.'/vendor/autoload.php';
     <link rel="stylesheet" href="\assets\css\general\home.css">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary" width="10px" data-bs-theme="dark">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary" width="10px" data-bs-theme="dark" >
         <div class="container-fluid">
             <a class="navbar-brand" href="/">Home</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
